@@ -1,0 +1,154 @@
+\documentclass[a4paper]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\title{Coursework: Divide and Conquer -- Report}
+
+
+\begin{document}
+\maketitle
+
+\section*{Latex Examples}
+
+\begin{figure}[h]
+
+\includegraphics[width=0.48\linewidth]{example_plot1.png}
+\includegraphics[width=0.48\linewidth]{example_plot2.png}
+
+\caption{Example for embedding plots in Latex.}
+\label{fig:examples}
+\end{figure}
+
+
+\section{Recurrences}
+
+\subsection{Substitution Method}
+
+Recursion trees allow you to analyse recurrences to obtain a guess for the substitution method. A closely related method is to expand out the recurrence a few times, until a pattern emerges. We call this the expansion method. An example of how to use the expansion method is given below.\\
+\newline
+Use the expansion method to guess an upper bound and the substitution method to verify your guess:
+
+\begin{itemize}
+
+\item Example: $T(n) = 2T(n/2) + n$
+
+Introduce constants $c$ and expand the recurrence: \\
+\begin{align*}
+T(n) & \leq 2T(n/2) + cn \\
+~ & \leq 2[2T(n/4) + cn/2] + cn = 4T(n/4)+2cn \\
+~ & \leq 4[2T(n/8) + cn/4] + 2cn = 8T(n/8)+3cn \\
+~ & \leq 8[2T(n/16) + cn/8] + 3cn = 16T(n/16)+4cn \\
+~ & \vdots
+\end{align*}
+
+A pattern is emerging. The general term is $T(n) \leq 2^k T(n/2^k) + kcn$. Plugging in $k=\lg n$ (the height of the recursion tree), we get $T(n) \leq nT(1) + cn \lg n = O(n \lg n)$.\\
+\newline
+Now we verify $O(n \lg n)$ using the substitution method:\\
+\newline
+Prove that
+\begin{align*}
+T(n) \leq c(n \lg n)
+\end{align*}
+Assume that
+\begin{align*}
+T(\frac{n}{2}) \leq c(\frac{n}{2} \lg \frac{n}{2})
+\end{align*}
+By substitution
+\begin{align*}
+T(n) & \leq 2(c(\frac{n}{2} \lg \frac{n}{2})) +  n \\
+~ & = cn \lg \frac{n}{2} + n \\
+~ & = cn \lg n - cn \lg 2 + n \\
+~ & \leq cn \lg n \quad \text{holds for} \, c \geq 1 \\
+\end{align*}
+
+\item $T(n) = 3T(n/2) + n$ 
+
+Insert your solution here
+
+\item $T(n) = T(n/2) + n^2$
+
+Insert your solution here
+
+\item $T(n) = 4T(n/2 + 2) + n$
+
+Insert your solution here
+
+\item $T(n) = 2T(n-1) + 1$
+
+Insert your solution here
+
+\item $T(n) = T(n-1) + T(n/2) + n$
+
+Insert your solution here
+
+\end{itemize}
+
+\subsection{Master Method}
+
+Use the master method to give tight asymptotic $\Theta$ bounds:
+
+\begin{itemize}
+
+\item Example: $T(n) = 2T(n/2) + n$
+
+Cost at leaves: $\Theta(n^{\log_b a}): n^{\log_2 2}=n=\Theta(n)$ \\
+Cost per depth: $f(n)=n$ \\
+Case 2: $f(n) = \Theta(n^{\log_b a})$: $f(n) = \Theta(n)$ \\
+Solution: $\Theta(n^{\log_b a} \lg n) = \Theta(n \lg n)$
+
+\item $T(n) = 2T(n/4) + 1$
+
+Insert your solution here
+
+\item $T(n) = 2T(n/4) + n$
+
+Insert your solution here
+
+\item $T(n) = 2T(n/2 + 17) + n$
+
+Insert your solution here
+
+\item $T(n) = 4T(n/2) + 2^n$
+
+Insert your solution here
+
+\item $T(n) = T(3n/4) + \sqrt{n}$
+
+Insert your solution here
+
+\end{itemize}
+
+\section{Sorting}
+
+\subsection{Plots}
+
+Insert your plots here
+
+\subsection{Discussion}
+
+Insert your discussion here
+
+\section{Integer Multiplication}
+
+\subsection{Plots}
+
+\noindent Insert your plots here
+
+\subsection{Discussion}
+
+\noindent Insert your discussion here
+
+\subsection{Recurrences}
+
+\subsubsection{Recursive Multiplication}
+
+\noindent Insert your solution here
+
+\subsubsection{Karatsuba Multiplication}
+
+\noindent Insert your solution here
+
+\end{document}
