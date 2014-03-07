@@ -27,6 +27,8 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
 {
   //A[p:q] is sorted, A[q+1:r] is sorted
   std::vector<int> copyOfA(A);
+  //could go faster (by a constant) by copying to an int array
+  //should go even faster (by a factor of n) to have no copy, and use temp - see mergefast
   int n=p, a=p, b=q+1;
   while (a<=q && b<=r) {
     if (copyOfA[a] <= copyOfA[b]) {
@@ -50,3 +52,42 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
     b++, n++;
   }
 }
+
+void MergeSort::mergefast(std::vector<int> &A, int p, int q, int r)
+{
+  int n=p, a=p, b=q+1, tempSize=1, *temptr;
+  while (a<=q && b<=r) {
+
+    while (A[a] <= A[b])
+      a++;
+
+    temptr = new int[tempSize];
+    temptr[tempSize-1] = A[a];
+    A[a] = A[b];
+    tempSize++, b++;
+
+    while (temptr[tempSize-2] > A[b])
+    
+    if (copyOfA[a] <= copyOfA[b]) {
+      A[n] = copyOfA[a];
+      a++, n++;
+    }
+    else {
+      A[n] = copyOfA[b];
+      b++, n++;
+    }
+  }
+  
+  //reach here once one of the two arrays is spent. just need to insert in same order what's
+  //left in the other.
+  while (a<=q) {
+    A[n] = copyOfA[a];
+    a++, n++;
+  }
+  while (b<=r) {
+    A[n] = copyOfA[b];
+    b++, n++;
+  }
+
+  delete [] temp;
+}  
