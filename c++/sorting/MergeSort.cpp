@@ -52,7 +52,7 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
     }
   }
   
-  while (a!=q) {
+  while (a<=q) {
     A[n] = copyOfA[a];
     a++, n++;
       std::cout << "sorted " << copyOfA[a-1] << ". array now:" << std::endl;
@@ -61,7 +61,7 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
       std::cout << std::endl;
   }
   
-  while (b!=r) {
+  while (b<=r) {
     A[n] = copyOfA[b];
     b++, n++;
       std::cout << "sorted " << copyOfA[b-1] << ". array now:" << std::endl;
@@ -69,6 +69,4 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
 	std::cout << A[k] << ' ';
       std::cout << std::endl;
   }
-
-  assert(n==r);
 }
