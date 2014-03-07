@@ -25,48 +25,28 @@ void MergeSort::sortpart(std::vector<int> &A, int p, int r)
 /******************************************************/
 void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
 {
-  std::cout << "have just been given this to merge: " << std::endl;
-  for(int k = p; k<=r; k++)
-    std::cout << A[k] << ' ';
-  std::cout << std::endl; 
-  //A[p:q] is sorted, A[q+1:r] is sorted, A[p:q] has size one greater
+  //A[p:q] is sorted, A[q+1:r] is sorted
   std::vector<int> copyOfA(A);
-
   int n=p, a=p, b=q+1;
   while (a<=q && b<=r) {
     if (copyOfA[a] <= copyOfA[b]) {
       A[n] = copyOfA[a];
       a++, n++;
-      std::cout << "sorted " << copyOfA[a-1] << ". array now:" << std::endl;
-      for(int k = p; k<=r; k++)
-	std::cout << A[k] << ' ';
-      std::cout << std::endl;
     }
     else {
       A[n] = copyOfA[b];
       b++, n++;
-      std::cout << "sorted " << copyOfA[b-1] << ". array now:" << std::endl;
-      for(int k = p; k<=r; k++)
-	std::cout << A[k] << ' ';
-      std::cout << std::endl;
     }
   }
   
+  //reach here once one of the two arrays is spent. just need to insert in same order what's
+  //left in the other.
   while (a<=q) {
     A[n] = copyOfA[a];
     a++, n++;
-      std::cout << "sorted " << copyOfA[a-1] << ". array now:" << std::endl;
-      for(int k = p; k<=r; k++)
-	std::cout << A[k] << ' ';
-      std::cout << std::endl;
   }
-  
   while (b<=r) {
     A[n] = copyOfA[b];
     b++, n++;
-      std::cout << "sorted " << copyOfA[b-1] << ". array now:" << std::endl;
-      for(int k = p; k<=r; k++)
-	std::cout << A[k] << ' ';
-      std::cout << std::endl;
   }
 }
