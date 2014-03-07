@@ -13,8 +13,6 @@ public:
 
   static void merge(std::vector<int> &A, int p, int q, int r);
 
-  static void mergefast(std::vector<int> &A, int p, int q, int r);
-
 };
 
 #endif /*MERGESORT_HPP_*/
