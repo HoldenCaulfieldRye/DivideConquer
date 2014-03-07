@@ -19,9 +19,5 @@ void InsertionSort::sortpart(std::vector<int> &A, int p, int r)
       i--;
     }
     A[i+1] = key;
-    std::cout << "sorted " << key << ", array now:" << std::endl;
-    for(int k = p; k<=r; k++)
-      std::cout << A[k] << ' ';
-    std::cout << std::endl;
   }
 }
