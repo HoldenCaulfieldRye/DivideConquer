@@ -12,3 +12,6 @@ analyse_insertion: InsertionSort.hpp InsertionSort.cpp analyse_insertion.cpp
 
 analyse_merge: MergeSort.hpp MergeSort.cpp analyse_merge.cpp
 	g++ -Wall -g MergeSort.cpp analyse_merge.cpp -o analyse_merge
+
+analyse_hybrid: HybridSort.hpp InsertionSort.cpp MergeSort.cpp HybridSort.cpp analyse_hybrid.cpp
+	g++ -Wall -g InsertionSort.cpp MergeSort.cpp HybridSort.cpp analyse_hybrid.cpp -o analyse_hybrid
