@@ -13,8 +13,13 @@ void HybridSort::sort(std::vector<int> &A)
 /******************************************************/
 void HybridSort::sortpart(std::vector<int> &A, int p, int r)
 { 
-  if (r-p+1 <= 4)
-    InsertionSort::sortpart(A, p, r);
+  if (r-p+1 <= 2) {
+    if (A[p] > A[r]) {
+      int temp = A[p];
+      A[p] = A[r];
+      A[r] = temp;
+    }
+  }
   else {
     int q = (p+r)/2;
     HybridSort::sortpart(A, p, q);   //HybridSort:: ?
