@@ -25,8 +25,9 @@ void MergeSort::sortpart(std::vector<int> &A, int p, int r)
 /******************************************************/
 void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
 {
-  //could copy to a vector, but an array is faster
-  int *copyOfA = new int[r+1];
+  //could copy to a vector, but a static array is faster
+  //(faster than a dynamic array - so accessing heap takes longer)
+  int copyOfA[r+1];
   for(int k = p; k<=r; k++)
     copyOfA[k] = A[k];
 
@@ -53,6 +54,4 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
     A[n] = copyOfA[b];
     b++, n++;
   }
-
-  delete [] copyOfA;
 }
