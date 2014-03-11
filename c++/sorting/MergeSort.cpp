@@ -25,11 +25,13 @@ void MergeSort::sortpart(std::vector<int> &A, int p, int r)
 /******************************************************/
 void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
 {
-  //A[p:q] is sorted, A[q+1:r] is sorted
-  std::vector<int> copyOfA(A);
-  //could go faster (by a constant) by copying to an int array
-  //should go even faster (by a factor of n) to have no copy, and use temp - see mergefast
+  //could copy to a vector, but an array is faster
+  int *copyOfA = new int[r+1];
+  for(int k = p; k<=r; k++)
+    copyOfA[k] = A[k];
+
   int n=p, a=p, b=q+1;
+  
   while (a<=q && b<=r) {
     if (copyOfA[a] <= copyOfA[b]) {
       A[n] = copyOfA[a];
@@ -51,4 +53,6 @@ void MergeSort::merge(std::vector<int> &A, int p, int q, int r)
     A[n] = copyOfA[b];
     b++, n++;
   }
+
+  delete [] copyOfA;
 }
