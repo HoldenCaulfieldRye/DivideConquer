@@ -129,7 +129,14 @@ Insert your plots here
 
 \subsection{Discussion}
 
-Insert your discussion here
+Insertion sort is faster than merge sort on small arrays up to size 8.
+Merge sort involves copying the array which takes linear time, this might be why. 2*n > n^2 iff etc kind of thing. (need to be more precise).
+
+One would think that Hybridsort would therefore be fastest by applying insertionsort when array small enough and merge sort otherwise, and results are above. 
+
+But we can do better: since merge sort breaks down array into smaller arrays, and for sufficiently small arrays, insertion sort is better, maybe insertion sort should always be used 'towards the end' of hybrid sort to achieve better results. see plot above.
+
+We can still do better: it's not because insertion is better up to size 8 that it should be used as soon as size is 8. Maybe merge should break array down to bits of size 4, and insertion should act on that. there would be more breaking down, but maybe this is more than compensated by just how much faster insertion is PER AVERAGE ENTRY on arrays of size 4 vs arrays of size 8. results above.
 
 \section{Integer Multiplication}
 
