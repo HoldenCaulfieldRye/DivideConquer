@@ -12,5 +12,13 @@ void HybridSort::sort(std::vector<int> &A)
 /******************************************************/
 void HybridSort::sortpart(std::vector<int> &A, int p, int r)
 {
-	/*********** INSERT YOUR CODE HERE ****************/
+  if (p - r < 8) {
+    InsertionSort::sortpart(A, p, r);
+  }
+  else {
+    int q = (p+r)/2;
+    HybridSort::sortpart(A, p, q);   //HybridSort:: ?
+    HybridSort::sortpart(A, q+1, r); //HybridSort:: ?
+    MergeSort::merge(A, p, q, r); //paste MergeSort code below faster?
+  }  
 }
