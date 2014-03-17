@@ -1,0 +1,7 @@
+#set logscale xy
+set terminal eps
+set output "Sorting_Times.eps"
+set title "Sorting Procedure Running Times"
+plot 	"timings_insertion.txt" using 1:2 title 'insertion sort' with linespoints,\
+		"timings_hybrid.txt" using 1:2 title 'hybrid sort' with linespoints,\
+		"timings_merge.txt" using 1:2 title 'merge sort' with linespoints

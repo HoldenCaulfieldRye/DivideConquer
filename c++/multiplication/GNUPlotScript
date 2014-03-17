@@ -1,0 +1,5 @@
+set terminal eps
+set title "Multiplication Procedure Running Times"
+set output "Multiplication_Times.eps"
+plot 	"timings_recursive.txt" using 1:2 title 'Recursive' with linespoints,\
+		"timings_karatsuba.txt" using 1:2 title 'Karatsuba' with linespoints
