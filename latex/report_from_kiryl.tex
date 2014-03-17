@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+	\documentclass[a4paper]{article}
 \usepackage{fullpage}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -84,7 +84,7 @@ $2n((3/2)^{log_2n}-1) = 2n(\frac{3^{log_2n}}{n}) - 2n = 2n^{log_23} - 2n$ \\
 Substitution yields: \\ \\
 $T(n) = n^{log_2{3}} + 2n^{log_23} - 2n$ \\
 
-Then clearly there exists a positive constant $C$ such that for all sufficiently large $n$ we will have: \\
+Then clearly (since surely $n^{log_2{3}}$ grows much faster than $n$) there exists a positive constant $C$ such that for all sufficiently large $n$ we will have: \\
 \\
 $T(n) = n^{log_2{3}} + 2n^{log_23} - 2n \leq Cn^{log_2{3}}  $
 \\
@@ -92,19 +92,17 @@ Recalling the definition of the big O, we can immediately write: \\
 $T(n) = O(n^{log_23})$
 
 Now, let us verify the found complexity using the substitution method. We want to prove that: \\ \\
-$T(n) \leq Mn^{log_23}$, where $M$ is a constant\\ \\
-We assume that the following holds: \\ \\
-$T(n/2) \leq D(n/2)^{log_23}$, where $D$ is a constant \\ \\
-Substitution yields: \\ \\
-$T(n) \leq 3D(n/2)^{log_23} + n = \frac{3Dn^{log_23}}{2^{log_23}} + n = Dn^{log_23} + n$ \\ \\
-Now, it is intuitively clear that because $log_23 > 1$ and since polynomial function grows significantly faster than a linear function, there will exist a constant $M$ such that for all sufficiently large $n$ the following will hold: \\ \\
-$T(n) \leq Dn^{log_23} + n \leq Mn^{log_23}$ \\ \\
-However, if we want to be rigorous it is quite trivial to prove it. We want to find $M$ such that: \\ \\
-$Dn^{log_23} + n \leq Mn^{log_23}$ \\ \\
-Solving for $M$: \\ \\
-$D + \frac{n^{log_22}}{n^{log_23}} \leq M \Leftrightarrow D  + n^{log_22 - log_23}  \leq M \Leftrightarrow D + n^{log_22/3}  \leq M$ \\ \\
-Now, clearly since $2/3 < 1$, we can state that $\forall n: n>1$ $\Rightarrow$ $n^{log_22/3} < 1$.  \\
-$\therefore$ $\forall n>1$, let $M = D + 1$ 
+$T(n) \leq Dn^{log_23}$, where $D$ is a constant\\ \\
+Because in the original expression there is a lower order term $n$, this trick will do the job:  let us prove instead that \\ \\
+$T(n) \leq Dn^{log_23} - bn$, \\ 
+
+where $D$ and $b$ are positive constants. We also assume that this bound holds for all positive $m<n$ and in particular for $m = n/2$: \\ \\
+$T(n/2) \leq D(n/2)^{log_23} - bn/2$ \\
+Substituting into recurrence yields: \\ \\
+$T(n) \leq 3D(n/2)^{log_23} - 3bn/2 + n = Dn^{log_23} + n(1-3b/2)$ \\ \\
+It is trivial now to see that as long as $b\ge 2$ (as required by definition of big O): \\ \\
+$T(n) \leq Dn^{log_23} + n(1-3b/2) \leq Dn^{log_23} - n \leq Dn^{log_23}$  $\forall n>1$\\ \\
+$\blacksquare$
 
 \item $T(n) = T(n/2) + n^2$
 
@@ -121,14 +119,15 @@ $T(1) + n^2\sum\limits_{i=0}^{log_2n}(1/2)^i \leq n^2\sum\limits_{i=0}^{\infty}(
 Again, we can always find a constant $M$ such that for all sufficiently large $n$ we will have that $2n^2 \leq Mn^2$; and this is in turn just the definition of the Big O and hence: \\ \\
 $T(n) = O(n^2)$ \\ \\
 Let us verify the found complexity using the substitution method. Out aim is to prove that: \\ \\
-$T(n) \leq Mn^2$, where $M$ is a constant\\ \\
-We assume that the following holds: \\ \\
+$T(n) \leq Dn^2$, where $D$ is a constant\\ \\
+We again assume that this bound holds for all positive $m<n$ and in particular for $m = n/2$: \\ \\
 $T(n/2) \leq Dn^2/4$, where $D$ is a constant \\ \\
 Substitution yields: \\ \\
 $T(n) \leq \frac{Dn^2}{4} + n^2 = n^2(\frac{D}{4} + 1)$ \\ \\
-It is not difficult to see that $\exists M:$ for all sufficiently large $n$, $n^2(\frac{D}{4} + 1) \leq Mn^2$ \\ \\
-In fact, dividing both sides of the inequality by $n^2$, we can see that the choice of $M$ does not depend on $n$ at all! For any given $D$ we choose $M$ such that:\\ \\
-$\frac{D}{4} + 1 \leq M$
+And now: \\ \\
+$n^2(\frac{D}{4}+1) \leq Dn^2 \Rightarrow D+4 \leq 4D \Rightarrow D \ge 4/3$ \\ \\
+$\therefore T(n) \leq Dn^2$, $D\ge 4/3$, $\forall n>1$ \\ \\
+$\blacksquare$
 
 
 \item $T(n) = 4T(n/2 + 2) + n$
@@ -155,20 +154,20 @@ $n^2(T(const) - 1) + n + 4log_2n \leq Mn^2$ \\
 $\therefore T(n) = O(n^2)$ \\ \\
 
 Again, let us verify the complexity we have found using the substitution method. What we want to prove is that: \\ \\
-$T(n) \leq Mn^2$, where $M$ is a positive constant\\ \\
-We assume that the following holds: \\ \\
-$T(n/2 + 2) \leq D(n/2 + 2)^2$, where $D$ is a positive constant \\ \\
-Substitution yields: \\ \\
-$T(n) \leq 4D(n/2 + 2)^2 + n = 4D(n^2/4 + 2n + 4) + n = Dn^2 + 8Dn + 16D + n = $\\
-$Dn^2 + n(8D+1) + 16D$ \\ \\
-Similarly to the previous problems, what we want to show is that for all sufficiently large $n$ we can find some constant $M$ such that: \\ \\ 
-$Dn^2 + n(8D+1) + 16D \leq Mn^2$ \\ \\
-Dividing both sides by $n^2$: \\ \\
-$D + \frac{8D+1}{n} + \frac{16D}{n^2} \leq M$ \\ \\
-Since in order to show that $T(n) = O(n^2)$ it suffices to show that a constant $M$ exists (i.e. we don't need to find the smallest one), it is perfectly legitimate to state the following: \\ \\
-$\forall$ $n: n>8D+1$, where  $D$ is a positive constant, and for $M: M=D+2$, the following holds: \\ \\
-$D + \frac{8D+1}{n} + \frac{16D}{n^2} \leq M$ \\ \\
-Since the second and third terms for the given values of $n$ will be less than 1.
+$T(n) \leq Dn^2$, where $D$ is a positive constant\\ \\
+However, due to the presence of the linear term in the recurrence, our hypothesis in this form won't work; instead, let us try: \\ \\
+$T(n) \leq Dn^2 - dn$ \\ \\
+We again assume that this bound holds for all positive $m<n$ and in particular for $m = n/2+2$: \\ \\
+$T(n/2 + 2) \leq D(n/2 + 2)^2 - d(n/2+2)$, where $D$ and $d$ are positive constants \\ \\
+Then: \\ \\
+$T(n) \leq 4D(n/2 + 2)^2 - 4d(n/2+2) + n = Dn^2 + 8Dn + 16D - 2dn - 8d + n$\\ \\
+We need to show that there exist constants $D$ and $d$ such that $\forall n:$ $n>n_0$ the following holds: \\ \\
+$Dn^2 + 8Dn + 16D - 2dn - 8d + n \leq Dn^2 - dn$ \\ \\
+This problem is equivalent to finding a particular solution to the system of linear inequalities: \\ \\
+$\begin{cases} 8D - 2d +1 \leq -d \\ -8d + 16D \leq 0 \end{cases}$ $\Leftrightarrow$ $\begin{cases}8D + 1 \leq d \\ 2D \leq d\end{cases}$ \\ \\
+Take $D=1$ and $d=10$ (notice - both positive). Then $\forall n: $ $n>1$ we have: \\ \\
+$T(n) \leq Dn^2-dn \leq Dn^2$ \\ \\
+$\blacksquare$
 
 \item $T(n) = 2T(n-1) + 1$
 
@@ -183,15 +182,19 @@ Now, trivially there exists a constant $M$ such that for all sufficiently large 
 $2^n(T(1) + 1) - 1 \leq M2^n$ \\
 $\therefore T(n) = O(2^n)$
  
-In this case the verification of the found complexity turns out to be truly trivial. Our aim is to prove that: \\ \\
-$T(n) \leq M2^n$, where $M$ is a positive constant \\ \\
-We assume that the following holds: \\ \\
-$T(n-1) \leq D\frac{2^n}{2}$ \\ \\
-Substitution yields: \\ \\
-$T(n) \leq 2D\frac{2^n}{2} + 1 = D2^n + 1$ \\ \\
-Taking $M = D + 2$ we get that $\forall n: n>0$: \\ \\
-$D2^n + 1 \leq M2^n$
-\item $T(n) = T(n-1) + T(n/2) + n$
+Our aim is to prove that: \\ \\
+$T(n) \leq D2^n$, where $D$ is a positive constant \\ \\
+We need our trick with subtracting lower-order terms again because of the constant term in the recurrence. So, we shall prove instead that: \\ \\
+$T(n) \leq D2^n - b$, where $D$ and $b$ are positive constants. We assume that this bound holds for all positive $m<n$ and in particular for $m = n-1$: \\ \
+$T(n-1) \leq D2^n/2 - b$
+Substituting back yields: \\ \\
+$T(n) \leq D2^n - 2b + 1$ \\ \\
+And we want to prove that we can find $D$ and $b$ such that for all sufficiently large $n$ the following holds: \\ \\
+$T(n) \leq D2^n - 2b + 1 \leq D2^n - b \Rightarrow -2b +1 \leq -b \Rightarrow b \ge 1$ \\ \\
+Take $b=2$ and $D$ - any positive number (say 1); then $\forall n:$ $n>1$ we have: \\ \\
+$T(n) \leq D2^n - b \leq D2^n$
+$\blacksquare$
+
 	
 
 \end{itemize}
@@ -211,23 +214,47 @@ Solution: $\Theta(n^{\log_b a} \lg n) = \Theta(n \lg n)$
 
 \item $T(n) = 2T(n/4) + 1$
 
-Insert your solution here
-
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_42} = n^{1/2} $\\
+Cost per depth: $f(n) = 1$ \\
+Case 1: $f(n) = O(n^{log_ba-\epsilon}): 1 = O(n^{1/2-\epsilon})$, where $\epsilon = 1/2$\\
+Solution: $\Theta(n^{log_ba}) = \Theta(n^{1/2})$
 \item $T(n) = 2T(n/4) + n$
 
-Insert your solution here
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_42} = n^{1/2} $\\
+Cost per depth: $f(n) = n$ \\
+Case 3: $f(n) = \Omega(n^{log_ba + \epsilon}): n = \Omega(n^{1/2+\epsilon})$, where $\epsilon = 1/2$. \\
+Regularity condition is satisfied: $n/2 \leq cn$, holds for $c = 2/3$ \\
+Solution: $\Theta(f(n)) = \Theta(n)$
 
-\item $T(n) = 2T(n/2 + 17) + n$
-
-Insert your solution here
+\item $T(n) = 2T(n/2 + 17) + n$ \\
+Note that the form of the recurrence does not match the form required by the Master Method \\
+because of the constant term in the argument of $T$ on the right-hand side. However, intuitively \\
+it is clear that this constant does have a major impact on our solution since for sufficiently large \\
+values of $n$ the difference between $n/2$ and $n/2 + 17$ (I am omitting the floor here) is negligible. \\ \\
+Let us therefore consider instead $T(n) = 2T(n/2) + n$: \\ \\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_22} = n$ \\
+Cost per depth: $f(n) = n$ \\ 
+Case 2: $f(n) = \Theta(n^{log_ba}): f(n) = \Theta(n)$ \\
+Solution: $\Theta(n^{log_ba}\lg n) = \Theta(n \lg n)$
 
 \item $T(n) = 4T(n/2) + 2^n$
 
-Insert your solution here
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_24} = n^2$ \\
+Cost per depth: $f(n) = 2^n$ \\
+\\
+First of all notice that $2^n$ grows much faster than any polynomial function, i.e. $n^a$, for any positive constant $a$. So, clearly, $n^2$ is an asymptotic lower bound for $2^n$. Because $2^n$ is not only polynomially larger, it is actually exponentially larger than $n^2$ the condition given in Case 3 of the Master's Theorem holds for any positive $\epsilon$ ($\epsilon = 2$ for example): \\ \\
+$2^n = \Omega(n^{lob_ba + \epsilon})$ \\ \\
+Let us check the regularity condition. We need to check whether we can find constant $c<1$ such that for all sufficiently large n: \\ \\
+$4\times2^{n/2} \leq c \times 2^n$ $\Leftrightarrow$ $ 4/2^{n/2} \leq c$ \\ \\
+It is clear now that it holds: the left hand side is strictly decreasing and in the limit approaches $0$. To be pedantic, let $c=1/2$. Then $\forall n: n>8$ the above condition will hold and $T(n) = \Theta(2^n)$. \\
+$\blacksquare$
 
-\item $T(n) = T(3n/4) + \sqrt{n}$
-
-Insert your solution here
+\item $T(n) = T(3n/4) + \sqrt{n}$\\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_{4/3} 1} = n^0 = 1$ \\ 
+Cost per depth: $f(n) = n^{1/2}$ \\
+Case 3: $f(n) =  \Omega(n^{log_ba + \epsilon}): n^{1/2} =  \Omega(n^{0+\epsilon})$, where $\epsilon = 1/2$. \\
+Since $f(n)$ is a polynomial function, regularity conditions holds. \\
+Solution: $f(n) = \Theta(n^{1/2})$
 
 \end{itemize}
 
@@ -255,10 +282,80 @@ Insert your discussion here
 
 \subsubsection{Recursive Multiplication}
 
-\noindent Insert your solution here
-
 \subsubsection{Karatsuba Multiplication}
 
-\noindent Insert your solution here
+\subsection{Analysis}
+
+Let us define the recurrences for the respected algorithms given above.\\ 
+Let $T(n)$ be the overall running time of a multiplication algorithm, where $n$ is the number of digits in \\
+the two input numbers $x$ and $y$. Being naturally pedantic, let us briefly formally outline both \\
+algorithms before diving into derivations and proofs. \\ \\
+Let $x$, $y$ be two $n$-digit numbers and let $B$ be the base of these numbers; then we can write these numbers as: \\
+$x = B^{\lfloor n/2 \rfloor }x_1 + x_0$ \\
+$y = B^{\lfloor n/2 \rfloor} y_1 + y_0$, where $x_0 < B^{\lfloor n/2 \rfloor }$ and $y_0<B^{\lfloor n/2 \rfloor}$ \\ \\
+We should probably note that although surely dividing number into two halves (or almost into two halves) is the optimal choice, one could in principle choose division factor different from $2$. \\ \\
+Having written our numbers in such a way, their product becomes: \\ \\
+$xy = (B^{\lfloor n/2 \rfloor }x_1 + x_0)(B^{\lfloor n/2 \rfloor} y_1 + y_0) = B^{2\lfloor n/2 \rfloor}x_1y_1 + B^{\lfloor n/2 \rfloor }(x_1y_0 + x_0y_1) + x_0y_0 $ \\ \\
+It is obvious that addition takes linear time and so the important pieces are four $n/2$-digit products, namely, - $x_1y_1$, $x_1y_0$, $x_0y_1$ and $x_0y_0$. Implementation wise all of them are handled using four recursive calls; combining these subproblems is going to take, as it was mentioned above, $O(n)$. Therefore: \\ \\
+$T(n) = 4T(\lfloor n/2 \rfloor) + O(n)$\\ \\
+It turns out that the floor function (although being an important technicality) does not affect the final result whatsoever and so we shall omit it: \\ \\
+$T(n) = 4T(n/2) + O(n)$\\ \\
+Applying Master Method: \\ \\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_24} = n^2$ \\
+Cost per depth: $f(n) = n$ \\
+Case 1: $f(n) = O(n^{log_ba-\epsilon}): n = O(n^{2-\epsilon})$, where $\epsilon = 1$\\
+Solution: $\Theta(n^{log_ba}) = \Theta(n^2)$ \\ \\
+And so the tight bounds for the recursive multiplication algorithm are $\Theta(n^2)$. \\
+$\blacksquare$ \\ \\
+Let's look at the Karatsuba algorithm now. Having $x$ and $y$ as above let us define the following terms: \\
+$a_1 = x_1y_1$ \\
+$a_2 = x_0y_0$ \\
+$a_3 = x_1y_0 + x_0y_1$\\ \\
+The trick that Karatsuba proposed was in fact nothing else but the trivial (what does not surely make it less powerful) result from the foundations of Complex Analysis derived by Gauss, who considered a product of two complex numbers $z_1 = u_1+iv_1, z_2 = u_2 + iv_2 \in \mathbb{C} $, $u_1,u_2,v_1,v_2 \in  \mathbb{R} $: \\ \\
+$z_1z_2 = (u_1+iv_1)(u_2 + iv_2) = u_1u_2 - v_1v_2 + i(v_1u_2 + v_2u_1)$\\ \\
+and notices that although the expression above involves four operations of multiplication, the job can be done using only three ones: \\ \\
+$v_1u_2 + v_2u_1 = (u_1 + v_1)(u_2 + v_2) - u_1u_2 - v_1v_2$ \\ \\
+In the context of our problem: \\ \\
+$a_3 = x_1y_0 + x_0y_1 = (x_0+x_1)(y_0+y_1) - a_1 - a_2$
+And this is a true miracle! Using this simple algebraic trick, we have reduced the number of the required multiplication operations from four to three at the cost of a few additions! Again, each of these subproblems is handled recursively and the task of combining them has a linear complexity. Therefore: \\ \\
+$T(n) = 3T(n/2) + O(n)$ \\ \\
+Applying Master Method:  \\ \\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_23} \approx n^{1.59}$ \\
+Cost per depth: $f(n) = n$ \\
+Case 1: $f(n) = O(n^{log_ba-\epsilon}): n = O(n^{log_23-\epsilon})$, where $\epsilon \approx 1.59$\\
+Solution: $\Theta(n^{log_ba}) = \Theta(n^{log_23})$ \\ \\
+And so the tight bounds for the recursive multiplication algorithm are $\Theta(n^{log_23})$. \\
+$\blacksquare$ \\ \\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
