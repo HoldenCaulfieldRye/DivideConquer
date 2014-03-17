@@ -1,0 +1,291 @@
+	\documentclass[a4paper]{article}
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\title{Coursework: Divide and Conquer -- Report}
+\author{Alexandre Dalyac \and Hamza Haider \and Kiryl Trembovolski}
+
+\begin{document}
+\maketitle
+
+\section*{Latex Examples}
+
+\begin{figure}[h]
+
+\includegraphics[width=0.48\linewidth]{example_plot1.png}
+\includegraphics[width=0.48\linewidth]{example_plot2.png}
+
+\caption{Example for embedding plots in Latex.}
+\label{fig:examples}
+\end{figure}
+
+
+\section{Recurrences}
+
+\subsection{Substitution Method}
+
+Recursion trees allow you to analyse recurrences to obtain a guess for the substitution method. A closely related method is to expand out the recurrence a few times, until a pattern emerges. We call this the expansion method. An example of how to use the expansion method is given below.\\
+\newline
+Use the expansion method to guess an upper bound and the substitution method to verify your guess:
+
+\begin{itemize}
+
+\item Example: $T(n) = 2T(n/2) + n$
+
+Introduce constants $c$ and expand the recurrence: \\
+\begin{align*}
+T(n) & \leq 2T(n/2) + cn \\
+~ & \leq 2[2T(n/4) + cn/2] + cn = 4T(n/4)+2cn \\
+~ & \leq 4[2T(n/8) + cn/4] + 2cn = 8T(n/8)+3cn \\
+~ & \leq 8[2T(n/16) + cn/8] + 3cn = 16T(n/16)+4cn \\
+~ & \vdots
+\end{align*}
+
+A pattern is emerging. The general term is $T(n) \leq 2^k T(n/2^k) + kcn$. Plugging in $k=\lg n$ (the height of the recursion tree), we get $T(n) \leq nT(1) + cn \lg n = O(n \lg n)$.\\
+\newline
+Now we verify $O(n \lg n)$ using the substitution method:\\
+\newline
+Prove that
+\begin{align*}
+T(n) \leq c(n \lg n)
+\end{align*}
+Assume that
+\begin{align*}
+T(\frac{n}{2}) \leq c(\frac{n}{2} \lg \frac{n}{2})
+\end{align*}
+By substitution
+\begin{align*}
+T(n) & \leq 2(c(\frac{n}{2} \lg \frac{n}{2})) +  n \\
+~ & = cn \lg \frac{n}{2} + n \\
+~ & = cn \lg n - cn \lg 2 + n \\
+~ & \leq cn \lg n \quad \text{holds for} \, c \geq 1 \\
+\end{align*}
+
+\item $T(n) = 3T(n/2) + n$ 
+
+This is a linear, finite history, constant coefficient recurrence. In order to apply the substitution method (also known as \textit{iteration method}), let us write down a few terms from this recursion that we will use below in backsubstitution: \\ 
+
+$T(n/2) = 3T(n/4) + n/2 = 3T(n/2^2) + n/2^1$ \\
+$T(n/4) = 3T(n/8) + n/4 = 3T(n/2^3) + n/2^2$ \\
+
+In this simple case two terms turn out to be sufficient to spot an emerging pattern: \\
+$T(n) = 3T(n/2) + n = 3[3T(n/2^2) + n/2^1] + n = $\\
+$3^2T(n/2^2) + 3n/2^1 + n = 3^2[3T(n/2^3)+n/2^2] + 3n/2 + n = $\\
+$3^3T(n/2^3) + 3^2n/2^2 + 3n/2^1 + n = $ \\
+  \vdots \\
+$3^{log_2n}T(1) + n\sum \limits_{i=0}^{log_2{n}-1} (3/2)^i =  n^{log_2{3}} + n\sum \limits_{i=0}^{log_2{n}-1} (3/2)^i $ \\
+\\
+Now, it is trivial to calculate the finite sum in the expression above: \\
+$n\sum \limits_{i=0}^{log_2{n}-1} (3/2)^i = n(\frac{1 - (3/2)^{log_2n}}{1 - (3/2)}) = $\\
+$2n((3/2)^{log_2n}-1) = 2n(\frac{3^{log_2n}}{n}) - 2n = 2n^{log_23} - 2n$ \\
+Substitution yields: \\ \\
+$T(n) = n^{log_2{3}} + 2n^{log_23} - 2n$ \\
+
+Then clearly (since surely $n^{log_2{3}}$ grows much faster than $n$) there exists a positive constant $C$ such that for all sufficiently large $n$ we will have: \\
+\\
+$T(n) = n^{log_2{3}} + 2n^{log_23} - 2n \leq Cn^{log_2{3}}  $
+\\
+Recalling the definition of the big O, we can immediately write: \\
+$T(n) = O(n^{log_23})$
+
+Now, let us verify the found complexity using the substitution method. We want to prove that: \\ \\
+$T(n) \leq Dn^{log_23}$, where $D$ is a constant\\ \\
+Because in the original expression there is a lower order term $n$, this trick will do the job:  let us prove instead that \\ \\
+$T(n) \leq Dn^{log_23} - bn$, \\ 
+
+where $D$ and $b$ are positive constants. We also assume that this bound holds for all positive $m<n$ and in particular for $m = n/2$: \\ \\
+$T(n/2) \leq D(n/2)^{log_23} - bn/2$ \\
+Substituting into recurrence yields: \\ \\
+$T(n) \leq 3D(n/2)^{log_23} - 3bn/2 + n = Dn^{log_23} + n(1-3b/2)$ \\ \\
+It is trivial now to see that as long as $b\ge 2$ (as required by definition of big O): \\ \\
+$T(n) \leq Dn^{log_23} + n(1-3b/2) \leq Dn^{log_23} - n \leq Dn^{log_23}$  $\forall n>1$\\ \\
+$\blacksquare$
+
+\item $T(n) = T(n/2) + n^2$
+
+This is a linear, finite history, constant coefficient recurrence. Similarly, let us write down a few terms from this recursion that we will use below in backsubstitution: \\
+
+$T(n/2) = T(n/4) + n^2/2^2$ \\
+$T(n/4) = T(n/8) + n^2/2^4$\\
+$T(n/8) = T(n/16) + n^2/2^6$ \\ \\
+Substituting back: \\
+$T(n) = T(n/2^1) + n^2 = T(n/2^2) + n^2/2^2 + n^2 = T(n/2^3) + n^2/2^4 + n^2/2^2 + n^2 = $\\
+$T(n/2^4) + n^2/2^6 + n^2/2^4 + n^2/2^2 + n^2 = $ \\
+  \vdots \\
+$T(1) + n^2\sum\limits_{i=0}^{log_2n}(1/2)^i \leq n^2\sum\limits_{i=0}^{\infty}(1/2)^i = 2n^2$ \\ \\
+Again, we can always find a constant $M$ such that for all sufficiently large $n$ we will have that $2n^2 \leq Mn^2$; and this is in turn just the definition of the Big O and hence: \\ \\
+$T(n) = O(n^2)$ \\ \\
+Let us verify the found complexity using the substitution method. Out aim is to prove that: \\ \\
+$T(n) \leq Dn^2$, where $D$ is a constant\\ \\
+We again assume that this bound holds for all positive $m<n$ and in particular for $m = n/2$: \\ \\
+$T(n/2) \leq Dn^2/4$, where $D$ is a constant \\ \\
+Substitution yields: \\ \\
+$T(n) \leq \frac{Dn^2}{4} + n^2 = n^2(\frac{D}{4} + 1)$ \\ \\
+And now: \\ \\
+$n^2(\frac{D}{4}+1) \leq Dn^2 \Rightarrow D+4 \leq 4D \Rightarrow D \ge 4/3$ \\ \\
+$\therefore T(n) \leq Dn^2$, $D\ge 4/3$, $\forall n>1$ \\ \\
+$\blacksquare$
+
+
+\item $T(n) = 4T(n/2 + 2) + n$
+
+This is a linear, finite history, constant coefficient recurrence. Let us expand it: \\
+
+$T(n) = 4T(n/2 +2) + n = 4(4T(n/2^2 + 1 + 2) + (n/2 + 2)) + n = $ \\
+$4^2T(n/2^2 +1 + 2) + 4(n/2 + 2) + n = $ \\
+$4^2(4T(n/2^3 + 1/2 + 1 + 2) + (n/2^2 + 1 + 2)) + 4(n/2 + 2) + n = $ \\
+$4^3T(n/2^3 + 1/2 + 1 + 2) + 4^2(n/2^2 + 1 + 2) + 4(n/2 + 2) + n = $ \\
+$4^3(4T(n/2^4 + 1/4 + 1/2 + 1 + 2) + (n/2^3 + 1/2 + 1 + 2)) + 4^2(n/2^2 + 1 + 2) + 4(n/2 + 2) + n = $ \\
+$4^4T(n/2^4 + 1/4 + 1/2 + 1 + 2) + 4^3(n/2^3 + 1/2 + 1 + 2) + 4^2(n/2^2 + 1 + 2) + 4(n/2 + 2) + n = $ \\
+\vdots \\
+$4^{log_2n}T(1 + \sum\limits_{i =-1}^{log_{2}n - 2} (1/2)^i) + n\sum\limits_{j=0}^{log_2n - 1} (2^j) + \sum\limits_{p=-1}^{log_2n - 3} \sum \limits_{k = -1}^{p} (1/2)^k = $ \\
+$ n^2T(1+2\sum\limits_{i=0}^{log_2n - 1} (1/2)^i) + n(\frac{1-2^{log_2n}}{1-2}) + 2\sum\limits_{p=-1}^{log_2n - 3} \sum \limits_{k = 0}^{p+1} (1/2)^k \leq $ \\
+$n^2T(1 + 2\sum\limits_{i=0}^{\infty} (1/2)^i) + n - n^2 + 2\sum\limits_{p=0}^{log_2n - 2} \sum \limits_{k = 0}^{p} (1/2)^k = $ \\
+$n^2(T(const) - 1) + n + 2\sum\limits_{p=0}^{log_2n - 2} \frac{(1 - (1/2)^{p+1})}{1 - 1/2} = $ \\
+$n^2(T(const) - 1) + n + 4\sum\limits_{p = 0}^{log_2n - 2} - \sum \limits_{p=0}^{log_2n - 2} (1/2)^{p+1}$ \\ \\
+Since in the last term in the expression above the sequence under the summation sign takes only positive values, we can write: \\ \\
+$n^2(T(const) - 1) + n + 4\sum\limits_{p = 0}^{log_2n - 2} - \sum \limits_{p=0}^{log_2n - 2} (1/2)^{p+1} \leq$ \\
+$n^2(T(const) - 1) + n + 4log_2n$ \\
+$n^2$ term in the expression above grows much faster than both linear and log terms; hence, it is always possible to find a constant $M$ such that for all sufficiently large $n$: \\ \\
+$n^2(T(const) - 1) + n + 4log_2n \leq Mn^2$ \\
+$\therefore T(n) = O(n^2)$ \\ \\
+
+Again, let us verify the complexity we have found using the substitution method. What we want to prove is that: \\ \\
+$T(n) \leq Dn^2$, where $D$ is a positive constant\\ \\
+However, due to the presence of the linear term in the recurrence, our hypothesis in this form won't work; instead, let us try: \\ \\
+$T(n) \leq Dn^2 - dn$ \\ \\
+We again assume that this bound holds for all positive $m<n$ and in particular for $m = n/2+2$: \\ \\
+$T(n/2 + 2) \leq D(n/2 + 2)^2 - d(n/2+2)$, where $D$ and $d$ are positive constants \\ \\
+Then: \\ \\
+$T(n) \leq 4D(n/2 + 2)^2 - 4d(n/2+2) + n = Dn^2 + 8Dn + 16D - 2dn - 8d + n$\\ \\
+We need to show that there exist constants $D$ and $d$ such that $\forall n:$ $n>n_0$ the following holds: \\ \\
+$Dn^2 + 8Dn + 16D - 2dn - 8d + n \leq Dn^2 - dn$ \\ \\
+This problem is equivalent to finding a particular solution to the system of linear inequalities: \\ \\
+$\begin{cases} 8D - 2d +1 \leq -d \\ -8d + 16D \leq 0 \end{cases}$ $\Leftrightarrow$ $\begin{cases}8D + 1 \leq d \\ 2D \leq d\end{cases}$ \\ \\
+Take $D=1$ and $d=10$ (notice - both positive). Then $\forall n: $ $n>1$ we have: \\ \\
+$T(n) \leq Dn^2-dn \leq Dn^2$ \\ \\
+$\blacksquare$
+
+\item $T(n) = 2T(n-1) + 1$
+
+This is a linear, finite history, constant coefficient recurrence. Let us expand it:  \\ \\
+$T(n) = 2T(n-1) + 1 = 2(2T(n-2)+1)+1 = 2^2T(n-2)+2+1 = $ \\
+$2^2(2T(n-3)+1)+2+1 = 2^3T(n-3) + 2^2 + 2 + 1 = $ \\
+$2^4T(n-4) + 2^3 + 2^2 + 2 + 1 = $ \\
+\vdots \\
+$2^nT(1) + \sum\limits_{i=0}^{n-1}2^i = 2^nT(1) + \frac{1-2^n}{1-2} = 2^nT(1) + 2^n - 1= $ \\
+$2^n(T(1) + 1) - 1$ \\ \\
+Now, trivially there exists a constant $M$ such that for all sufficiently large $n$: \\ \\
+$2^n(T(1) + 1) - 1 \leq M2^n$ \\
+$\therefore T(n) = O(2^n)$
+ 
+Our aim is to prove that: \\ \\
+$T(n) \leq D2^n$, where $D$ is a positive constant \\ \\
+We need our trick with subtracting lower-order terms again because of the constant term in the recurrence. So, we shall prove instead that: \\ \\
+$T(n) \leq D2^n - b$, where $D$ and $b$ are positive constants. We assume that this bound holds for all positive $m<n$ and in particular for $m = n-1$: \\ \
+$T(n-1) \leq D2^n/2 - b$
+Substituting back yields: \\ \\
+$T(n) \leq D2^n - 2b + 1$ \\ \\
+And we want to prove that we can find $D$ and $b$ such that for all sufficiently large $n$ the following holds: \\ \\
+$T(n) \leq D2^n - 2b + 1 \leq D2^n - b \Rightarrow -2b +1 \leq -b \Rightarrow b \ge 1$ \\ \\
+Take $b=2$ and $D$ - any positive number (say 1); then $\forall n:$ $n>1$ we have: \\ \\
+$T(n) \leq D2^n - b \leq D2^n$
+$\blacksquare$
+
+	
+
+\end{itemize}
+
+\subsection{Master Method}
+
+Use the master method to give tight asymptotic $\Theta$ bounds:
+
+\begin{itemize}
+
+\item Example: $T(n) = 2T(n/2) + n$
+
+Cost at leaves: $\Theta(n^{\log_b a}): n^{\log_2 2}=n=\Theta(n)$ \\
+Cost per depth: $f(n)=n$ \\
+Case 2: $f(n) = \Theta(n^{\log_b a})$: $f(n) = \Theta(n)$ \\
+Solution: $\Theta(n^{\log_b a} \lg n) = \Theta(n \lg n)$
+
+\item $T(n) = 2T(n/4) + 1$
+
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_42} = n^{1/2} $\\
+Cost per depth: $f(n) = 1$ \\
+Case 1: $f(n) = O(n^{log_ba-\epsilon}): 1 = O(n^{1/2-\epsilon})$, where $\epsilon = 1/2$\\
+Solution: $\Theta(n^{log_ba}) = \Theta(n^{1/2})$
+\item $T(n) = 2T(n/4) + n$
+
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_42} = n^{1/2} $\\
+Cost per depth: $f(n) = n$ \\
+Case 3: $f(n) = \Omega(n^{log_ba + \epsilon}): n = \Omega(n^{1/2+\epsilon})$, where $\epsilon = 1/2$. \\
+Regularity condition is satisfied: $n/2 \leq cn$, holds for $c = 2/3$ \\
+Solution: $\Theta(f(n)) = \Theta(n)$
+
+\item $T(n) = 2T(n/2 + 17) + n$ \\
+Note that the form of the recurrence does not match the form required by the Master Method \\
+because of the constant term in the argument of $T$ on the right-hand side. However, intuitively \\
+it is clear that this constant does have a major impact on our solution since for sufficiently large \\
+values of $n$ the difference between $n/2$ and $n/2 + 17$ (I am omitting the floor here) is negligible. \\ \\
+Let us therefore consider instead $T(n) = 2T(n/2) + n$: \\ \\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_22} = n$ \\
+Cost per depth: $f(n) = n$ \\ 
+Case 2: $f(n) = \Theta(n^{log_ba}): f(n) = \Theta(n)$ \\
+Solution: $\Theta(n^{log_ba}\lg n) = \Theta(n \lg n)$
+
+\item $T(n) = 4T(n/2) + 2^n$
+
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_24} = n^2$ \\
+Cost per depth: $f(n) = 2^n$ \\
+\\
+First of all notice that $2^n$ grows much faster than any polynomial function, i.e. $n^a$, for any positive constant $a$. So, clearly, $n^2$ is an asymptotic lower bound for $2^n$. Because $2^n$ is not only polynomially larger, it is actually exponentially larger than $n^2$ the condition given in Case 3 of the Master's Theorem holds for any positive $\epsilon$ ($\epsilon = 2$ for example): \\ \\
+$2^n = \Omega(n^{lob_ba + \epsilon})$ \\ \\
+Let us check the regularity condition. We need to check whether we can find constant $c<1$ such that for all sufficiently large n: \\ \\
+$4\times2^{n/2} \leq c \times 2^n$ $\Leftrightarrow$ $ 4/2^{n/2} \leq c$ \\ \\
+It is clear now that it holds: the left hand side is strictly decreasing and in the limit approaches $0$. To be pedantic, let $c=1/2$. Then $\forall n: n>8$ the above condition will hold and $T(n) = \Theta(2^n)$. \\
+$\blacksquare$
+
+\item $T(n) = T(3n/4) + \sqrt{n}$\\
+Cost at leaves: $\Theta(n^{log_ba}): n^{log_{4/3} 1} = n^0 = 1$ \\ 
+Cost per depth: $f(n) = n^{1/2}$ \\
+Case 3: $f(n) =  \Omega(n^{log_ba + \epsilon}): n^{1/2} =  \Omega(n^{0+\epsilon})$, where $\epsilon = 1/2$. \\
+Since $f(n)$ is a polynomial function, regularity conditions holds. \\
+Solution: $f(n) = \Theta(n^{1/2})$
+
+\end{itemize}
+
+\section{Sorting}
+
+\subsection{Plots}
+
+Insert your plots here
+
+\subsection{Discussion}
+
+Insert your discussion here
+
+\section{Integer Multiplication}
+
+\subsection{Plots}
+
+\noindent Insert your plots here
+
+\subsection{Discussion}
+
+\noindent Insert your discussion here
+
+\subsection{Recurrences}
+
+\subsubsection{Recursive Multiplication}
+
+\noindent Insert your solution here
+
+\subsubsection{Karatsuba Multiplication}
+
+\noindent Insert your solution here
+
+\end{document}
