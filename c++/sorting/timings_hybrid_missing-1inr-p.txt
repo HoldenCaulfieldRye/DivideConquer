@@ -1,0 +1,14 @@
+# hybrid sort running time
+# n 	microseconds
+0002	39
+0004	109
+0008	635
+0016	1712
+0032	4674
+0064	11894
+0128	28609
+0256	73674
+0512	153775
+1024	356018
+2048	839986
+timing for when condition on r-p+1 for insertion vs merge was missing the +1
