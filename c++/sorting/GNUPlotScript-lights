@@ -1,0 +1,6 @@
+#set logscale xy
+set terminal eps
+set output "sort_lights.eps"
+set title "Sorting Procedures with Light Data Structures Running Times"
+plot 	"timings_light_merge.txt" using 1:2 title 'light merge sort' with linespoints,\
+		"timings_light_hybrid.txt" using 1:2 title 'light hybrid sort' with linespoints
