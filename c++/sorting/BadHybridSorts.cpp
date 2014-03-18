@@ -1,4 +1,4 @@
-#include "LightSorts.hpp"
+#include "BadHybridSorts.hpp"
 #include "InsertionSort.hpp"
 #include "MergeSort.hpp"
 #include <iostream>
@@ -19,8 +19,8 @@ void BadHybridSorts::sortpart(std::vector<int> &A, int p, int r, threshold)
   }
   else { //use merge sort
     int q = (p+r)/2;
-    HybridSort::sortpart(A, p, q, threshold);
-    HybridSort::sortpart(A, q+1, r, threshold);
+    BadHybridSorts::sortpart(A, p, q, threshold);
+    BadHybridSorts::sortpart(A, q+1, r, threshold);
     MergeSort::merge(A, p, q, r);
   }  
 }

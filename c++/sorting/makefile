@@ -4,8 +4,15 @@ insertion: InsertionSort.hpp InsertionSort.cpp test_insertion.cpp
 merge: MergeSort.hpp MergeSort.cpp test_merge.cpp
 	g++ -Wall -g MergeSort.cpp test_merge.cpp -o test_merge
 
-hybrid: HybridSort.hpp InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrid.cpp
+hybrid: HybridSort.hpp InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrids.cpp
 	g++ -Wall -g InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrid.cpp -o test_hybrid
+
+badhybrids: BadHybridSorts.hpp InsertionSort.cpp MergeSort.cpp BadHybridSorts.cpp test_badhybrids.cpp
+	g++ -Wall -g InsertionSort.cpp MergeSort.cpp BadHybridSorts.cpp test_badhybrids.cpp -o test_badhybrids
+
+lightsorts: LightSorts.hpp LightSorts.cpp test_lightsorts.cpp
+	g++ -Wall -g LightSorts.cpp test_lightsorts.cpp -o test_lightsorts
+
 
 analyse_insertion: InsertionSort.hpp InsertionSort.cpp analyse_insertion.cpp
 	g++ -Wall -g InsertionSort.cpp analyse_insertion.cpp -o analyse_insertion
