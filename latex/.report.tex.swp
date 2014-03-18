@@ -129,22 +129,22 @@ Insert your plots here
 
 \subsection{Discussion}
 
-\includegraphics[width=0.48\linewidth]{sort_insert_vs_merge.png}
+\includegraphics[width=0.48\linewidth]{sort_insert_vs_merge.eps}
 
 Insertion sort is faster than merge sort on small arrays up to size 8.
 That is because at every run of MergeSort::sortpart(), the subarray is copied, which takes time that is linear in the length of the subarray. Since the recursion tree has depth $\log_2 n$, each entry is copied $\log_2 n$ times so this array copying altogether takes $\Theta(n^{\log_2 n})$ time. On the other hand, insertion sort does not do any array copying (but moving an entry to its correct position takes \mathcal{O}(n) time).\\
 
-\includegraphics[width=0.48\linewidth]{sort_hybrid_thresholds.png}
+\includegraphics[width=0.48\linewidth]{sort_hybrid_thresholds.eps}
 
 One might think that hybrid sort would therefore be optimal by running pure insertion sort when array size less than 8, and pure merge sort otherwise. But we can do better: since merge sort breaks down array into smaller arrays, and for sufficiently small arrays, insertion sort is better, maybe insertion sort should always be used 'towards the end' of hybrid sort to achieve better results. The question is, when should this occur? What should the threshold subarray size be? 
 It's not because insertion is better up to size 8 that it should be used as soon as size is 8. Maybe merge should break array down to, say, subarrays of size 4, and insertion should act on that. There would be more breaking down, but maybe this is more than compensated by just how much faster insertion is per average entry on arrays of size 4 vs arrays of size 8. 
 We tried various different threshold array sizes, and the best was found to be for size 4. Results are above. The code for this optimal hybrid sort can be found in HybridSort.cpp, while versions using other thresholds were evaluated using an overload for sortpart() which can be found in BadHybridSorts.cpp as findHybridSort(). The final plot comparing insertion sort, merge sort, and optimal hybrid sort is below. \\
 
-\includegraphics[width=0.48\linewidth]{sort_final.png}
+\includegraphics[width=0.48\linewidth]{sort_final.eps}
 
 As an extension, merge sort can be improved by using a lighter data structure when copying the entries: in this case, a static array is used instead of a vector. (We found that using a static array was faster than using a dynamic array. Maybe this is because OS operations on the heap are slower than on the stack?) In this case, merge sort beats insertion sort on any array size, so it no longer makes sense to combine the two in hybrid sort. However, merge can still be beaten by not copying the subarray when it is of size 2, but rather storing an entry as temp if the subarray needs to be flipped, and doing nothing otherwise. Results are below. The code for these versions of merge sort and hybrid sort can be found in LightSorts.cpp as lightMergeSort() and lightHybridSort().\\
 
-\includegraphics[width=0.48\linewidth]{sort_lights.png}
+\includegraphics[width=0.48\linewidth]{sort_lights.eps}
 
 
 \section{Integer Multiplication}
