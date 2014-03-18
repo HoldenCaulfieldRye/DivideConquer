@@ -1,0 +1,7 @@
+#set logscale xy
+set terminal eps
+set output "sort_hybrid_thresholds.eps"
+set title "Running Times when finding Optimal HybridSort Threshold"
+plot 	"timings_hybrid_2.txt" using 1:2 title 'threshold==2' with linespoints,\
+		"timings_hybrid_4.txt" using 1:2 title 'threshold==4' with linespoints,\
+		"timings_hybrid_8.txt" using 1:2 title 'threshold==8' with linespoints
