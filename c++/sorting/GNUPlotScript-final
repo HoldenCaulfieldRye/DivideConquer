@@ -1,7 +1,11 @@
 #set logscale xy
 set terminal eps
 set output "sort_final.eps"
-set title "Sorting Procedures Running Times"
-plot 	"timings_insertion.txt" using 1:2 title 'insertion sort' with linespoints,\
-		"timings_hybrid.txt" using 1:2 title 'hybrid sort' with linespoints,\
-		"timings_merge.txt" using 1:2 title 'merge sort' with linespoints
+set title "Running Times when finding Optimal HybridSort Threshold"
+plot 	"timings_hybrid_2.txt" using 1:2 title 'threshold==2' with linespoints,\
+		"timings_hybrid_3.txt" using 1:2 title 'threshold==3' with linespoints,\
+		"timings_hybrid_4.txt" using 1:2 title 'threshold==4' with linespoints,\
+		"timings_hybrid_5.txt" using 1:2 title 'threshold==5' with linespoints,\
+		"timings_hybrid_6.txt" using 1:2 title 'threshold==6' with linespoints,\
+		"timings_hybrid_7.txt" using 1:2 title 'threshold==7' with linespoints,\
+		"timings_hybrid_8.txt" using 1:2 title 'threshold==8' with linespoints
