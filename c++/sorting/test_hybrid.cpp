@@ -40,7 +40,7 @@ int main( int argc, char *argv[] )
 
 	
   // Run sorting algorithm.	
-  HybridSort::HybridSort(sequence);
+  HybridSort::sort(sequence);
 
 
   int i = 0;

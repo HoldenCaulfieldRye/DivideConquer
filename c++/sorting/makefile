@@ -4,7 +4,7 @@ insertion: InsertionSort.hpp InsertionSort.cpp test_insertion.cpp
 merge: MergeSort.hpp MergeSort.cpp test_merge.cpp
 	g++ -Wall -g MergeSort.cpp test_merge.cpp -o test_merge
 
-hybrid: HybridSort.hpp InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrids.cpp
+hybrid: HybridSort.hpp InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrid.cpp
 	g++ -Wall -g InsertionSort.cpp MergeSort.cpp HybridSort.cpp test_hybrid.cpp -o test_hybrid
 
 badhybrids: BadHybridSorts.hpp InsertionSort.cpp MergeSort.cpp BadHybridSorts.cpp test_badhybrids.cpp

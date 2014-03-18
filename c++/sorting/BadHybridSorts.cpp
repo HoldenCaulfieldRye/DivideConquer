@@ -1,6 +1,6 @@
-#include "BadHybridSorts.hpp"
 #include "InsertionSort.hpp"
 #include "MergeSort.hpp"
+#include "BadHybridSorts.hpp"
 #include <iostream>
 
 void BadHybridSorts::sort(std::vector<int> &A, int threshold)
