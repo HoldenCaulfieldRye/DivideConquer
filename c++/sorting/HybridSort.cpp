@@ -22,8 +22,8 @@ void HybridSort::sortpart(std::vector<int> &A, int p, int r)
   }
   else {
     int q = (p+r)/2;
-    HybridSort::sortpart(A, p, q);   //HybridSort:: ?
-    HybridSort::sortpart(A, q+1, r); //HybridSort:: ?
-    MergeSort::merge(A, p, q, r); //paste MergeSort code below faster?
+    HybridSort::sortpart(A, p, q);
+    HybridSort::sortpart(A, q+1, r);
+    MergeSort::merge(A, p, q, r);
   }  
 }
